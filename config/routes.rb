@@ -1,4 +1,8 @@
 Ratebeer::Application.routes.draw do
+  resources :beer_clubs
+
+  resources :users
+
   resources :beers
 
   resources :breweries
@@ -8,6 +12,14 @@ Ratebeer::Application.routes.draw do
   get 'kaikki_bisset', to: 'beers#index'
 
   resources :ratings, only: [:index, :new, :create, :destroy]
+
+  get 'signup', to: 'users#new'
+
+  resource :session, only: [:new, :create, :delete]
+
+  get 'signin', to: 'sessions#new'
+
+  delete 'signout', to: 'sessions#destroy'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
