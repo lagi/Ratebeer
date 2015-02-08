@@ -14,8 +14,8 @@ class MembershipsController < ApplicationController
 
   # GET /memberships/new
   def new
+    @beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
     @membership = Membership.new
-    @beer_clubs = BeerClub.all
   end
 
   # GET /memberships/1/edit
@@ -25,15 +25,16 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    
     @membership = Membership.new(membership_params)
+    @membership.user = current_user
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @membership }
+        format.html { redirect_to current_user, notice: "You just joined #{@membership.beer_club.name}" }
+        format.json { render :show, status: :created, location: @membership }
       else
-        format.html { render action: 'new' }
+        @beer_clubs = BeerClub.all.reject{ |b| b.members.include? current_user }
+        format.html { render :new }
         format.json { render json: @membership.errors, status: :unprocessable_entity }
       end
     end
@@ -45,9 +46,9 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.update(membership_params)
         format.html { redirect_to @membership, notice: 'Membership was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :show, status: :ok, location: @membership }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @membership.errors, status: :unprocessable_entity }
       end
     end
@@ -58,7 +59,7 @@ class MembershipsController < ApplicationController
   def destroy
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to memberships_url }
+      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,6 +72,6 @@ class MembershipsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def membership_params
-      params.require(:membership).permit(:beer_club_id, :user_id)
+      params.require(:membership).permit(:user_id, :beer_club_id)
     end
 end

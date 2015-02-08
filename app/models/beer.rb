@@ -1,17 +1,14 @@
 class Beer < ActiveRecord::Base
-belongs_to :brewery
-has_many :ratings, dependent: :destroy
-has_many :raters, through: :ratings, source: :user
-validates :name, presence: true
-include RatingAverage
+  include RatingAverage
 
- def ratings_count
-  array = ratings.to_a
-  array.length
- end
+  belongs_to :brewery
+  has_many :ratings, dependent: :destroy
+  has_many :raters, -> { uniq }, through: :ratings, source: :user
 
- def to_s
-  "#{name}, #{brewery.name}"
- end
+  validates :name, presence: true
+  validates :style, presence: true
 
+  def to_s
+    "#{name} #{brewery.name}"
+  end
 end

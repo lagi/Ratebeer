@@ -4,15 +4,18 @@
       <h2><%= pluralize(@membership.errors.count, "error") %> prohibited this membership from being saved:</h2>
 
       <ul>
-      <% @membership.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @membership.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
 
-  <%= f.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :name) %>
-  <%= f.hidden_field :user_id, :value => current_user.id %>
-  <%= f.submit %>
+  <div class="field">
+    <%= f.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :name) %>
+  </div>
 
+  <div class="actions">
+    <%= f.submit %>
+  </div>
 <% end %>

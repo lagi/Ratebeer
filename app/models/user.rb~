@@ -1,16 +1,23 @@
 class User < ActiveRecord::Base
-  validates :username, uniqueness: true, length: { minimum: 3, maximum: 15 }
-  validates :password, length: { minimum: 4 }
-  validates_format_of :password, :with => /\A(?=.*[A-Z])(?=.*[0-9]).+\z/
-  has_many :ratings, dependent: :destroy
-  has_many :beers, through: :ratings
-  has_many :beerclubs, through :memberships
-  has_secure_password
   include RatingAverage
 
-  def ratings_count
-    array = ratings.to_a
-    array.length
+  has_secure_password
+
+  has_many :ratings, dependent: :destroy
+  has_many :beers, through: :ratings
+  has_many :memberships, dependent: :destroy
+  has_many :beer_clubs, through: :memberships
+
+  validates :username, uniqueness: true,
+                       length: { in: 3..15 }
+
+  validates :password, length: { minimum: 4 }
+
+  validates :password, format: { with: /\d.*[A-Z]|[A-Z].*\d/,  message: "has to contain one number and one upper case letter" }
+
+  def favorite_beer
+    return nil if ratings.empty?
+    ratings.sort_by{ |r| r.score }.last.beer
   end
 
 end

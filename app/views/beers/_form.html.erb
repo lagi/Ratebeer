@@ -4,8 +4,8 @@
       <h2><%= pluralize(@beer.errors.count, "error") %> prohibited this beer from being saved:</h2>
 
       <ul>
-      <% @beer.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @beer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
@@ -17,14 +17,13 @@
   </div>
   <div class="field">
     <%= f.label :style %><br>
-    <%= f.select :style, options_for_select(@styles, :name) %>
+    <%= f.select :style, options_for_select(@styles) %>
   </div>
   <div class="field">
     <%= f.label :brewery_id %><br>
-<%= f.select :brewery_id, options_from_collection_for_select(@breweries, :id, :name) %>
+    <%= f.select :brewery_id, options_from_collection_for_select(@breweries, :id, :name) %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
-
 <% end %>
