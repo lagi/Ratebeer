@@ -1,6 +1,5 @@
 require 'rails_helper'
-
-#include OwnTestHelper
+include OwnTestHelper
 
 describe "User" do
   before :each do
@@ -21,16 +20,16 @@ describe "User" do
       expect(current_path).to eq(signin_path)
       expect(page).to have_content 'Username and/or password mismatch'
     end
+  end
 
-    it "when signed up with good credentials, is added to the system" do
-      visit signup_path
-      fill_in('user_username', with:'Brian')
-      fill_in('user_password', with:'Secret55')
-      fill_in('user_password_confirmation', with:'Secret55')
+  it "when signed up with good credentials, is added to the system" do
+    visit signup_path
+    fill_in('user_username', with:'Brian')
+    fill_in('user_password', with:'Secret55')
+    fill_in('user_password_confirmation', with:'Secret55')
 
-      expect{
-        click_button('Create User')
-      }.to change{User.count}.by(1)
-    end
+    expect{
+      click_button('Create User')
+    }.to change{User.count}.by(1)
   end
 end
