@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  resources :styles
+
   resources :memberships
 
   resources :beer_clubs
 
-  resources :users
+  resources :users do
+    post 'toggle_iced', on: :member
+  end
 
   get 'signup', to: 'users#new'
   get 'signin', to: 'sessions#new'
@@ -13,16 +17,15 @@ Rails.application.routes.draw do
 
   resources :beers
 
-  resources :breweries
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
 
   resources :ratings, only: [:index, :new, :create, :destroy]
 
-  resources :places, only:[:index, :show]
-
-  get 'places', to: 'places#index'
+  resources :places, only: [:index, :show]
 
   post 'places', to:'places#search'
-
 
   root 'breweries#index'
   # The priority is based upon order of creation: first created -> highest priority.

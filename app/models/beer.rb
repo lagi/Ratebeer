@@ -1,6 +1,7 @@
 class Beer < ActiveRecord::Base
   include RatingAverage
 
+  belongs_to :style
   belongs_to :brewery
   has_many :ratings, dependent: :destroy
   has_many :raters, -> { uniq }, through: :ratings, source: :user
@@ -10,5 +11,10 @@ class Beer < ActiveRecord::Base
 
   def to_s
     "#{name} #{brewery.name}"
+  end
+
+  def self.top(n)
+    sorted_by_rating_in_desc_order = Beer.all.sort_by(rating.score)
+    sorted_by_rating_in_desc_order[0, n]
   end
 end

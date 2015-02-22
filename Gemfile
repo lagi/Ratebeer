@@ -48,6 +48,10 @@ group :development, :test do
   gem 'rspec-its'
 end
 
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end
 
 group :test do
   gem 'factory_girl_rails'
@@ -59,15 +63,5 @@ end
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
 gem 'httparty'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
