@@ -21,10 +21,13 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer',  platforms: :ruby
 
+gem 'selenium-webdriver'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -48,10 +51,6 @@ group :development, :test do
   gem 'rspec-its'
 end
 
-gem 'bootstrap-sass'
-group :development do
-  gem 'rails_layout'
-end
 
 group :test do
   gem 'factory_girl_rails'
@@ -65,3 +64,7 @@ end
 gem 'bcrypt', '~> 3.1.7'
 gem 'httparty'
 
+gem 'bootstrap-sass'
+group :development do
+  gem 'rails_layout'
+end

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :beer_clubs
 
   resources :users do
-    post 'toggle_iced', on: :member
+    post 'toggle_frozen', on: :member
   end
 
   get 'signup', to: 'users#new'
@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   delete 'signout', to: 'sessions#destroy'
 
   resource :session, only: [:new, :create, :delete]
+
+  get 'beerlist', to:'beers#list'
+
+  get 'ngbeerlist', to:'beers#nglist'
+
+  get 'brewerylist', to:'breweries#list'
 
   resources :beers
 
@@ -24,7 +30,6 @@ Rails.application.routes.draw do
   resources :ratings, only: [:index, :new, :create, :destroy]
 
   resources :places, only: [:index, :show]
-
   post 'places', to:'places#search'
 
   root 'breweries#index'
